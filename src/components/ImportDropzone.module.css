@@ -1,0 +1,100 @@
+.dropzone {
+  border: 2px dashed var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 64px 48px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--bg-secondary);
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.dropzone.dragging {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  animation: breathe 2s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--accent-dim);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(212, 165, 116, 0.05);
+  }
+}
+
+.icon {
+  width: 56px;
+  height: 56px;
+  color: var(--accent);
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.hint {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.formats {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.btn {
+  margin-top: 16px;
+  padding: 10px 24px;
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.btn:hover {
+  background: var(--accent-hover);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.progressWrap {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stepLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.doneIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--success);
+}

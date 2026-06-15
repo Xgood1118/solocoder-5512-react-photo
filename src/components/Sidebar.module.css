@@ -1,0 +1,138 @@
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  height: 100vh;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s, min-width 0.3s;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 64px;
+  min-width: 64px;
+}
+
+.header {
+  padding: 24px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--accent) 0%, #a67c52 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--bg-primary);
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.sidebar.collapsed .title {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav {
+  flex: 1;
+  padding: 12px 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  transition: all 0.15s;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.navItem:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.navItem.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.navIcon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.navLabel {
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.sidebar.collapsed .navLabel {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sectionTitle {
+  padding: 16px 12px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .sectionTitle {
+  opacity: 0;
+  pointer-events: none;
+  padding: 16px 0 0;
+}
+
+.footer {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.collapseBtn {
+  width: 100%;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--text-secondary);
+  transition: all 0.15s;
+}
+
+.collapseBtn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}

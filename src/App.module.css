@@ -1,0 +1,14 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  overflow: hidden;
+}

@@ -1,0 +1,125 @@
+.page {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.tagPanel {
+  width: 240px;
+  min-width: 240px;
+  border-left: 1px solid var(--border);
+  background: var(--bg-secondary);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.tagPanelTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addBtn {
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all 0.15s;
+  display: flex;
+}
+
+.addBtn:hover {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+
+.empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--text-muted);
+  padding: 64px 24px;
+  text-align: center;
+}
+
+.emptyIcon {
+  opacity: 0.4;
+  margin-bottom: 8px;
+}
+
+.emptyTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  color: var(--text-secondary);
+}
+
+.emptyText {
+  font-size: 13px;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.importBtn {
+  margin-top: 12px;
+  padding: 10px 24px;
+  background: var(--accent);
+  color: var(--bg-primary);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.importBtn:hover {
+  background: var(--accent-hover);
+}
+
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.input:focus {
+  border-color: var(--accent);
+  outline: none;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.select {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 13px;
+}

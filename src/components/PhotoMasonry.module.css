@@ -1,0 +1,29 @@
+.masonry {
+  column-count: 4;
+  column-gap: 12px;
+  padding: 24px;
+}
+
+@media (max-width: 1400px) {
+  .masonry {
+    column-count: 3;
+  }
+}
+
+@media (max-width: 1000px) {
+  .masonry {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 600px) {
+  .masonry {
+    column-count: 1;
+  }
+}
+
+.item {
+  break-inside: avoid;
+  margin-bottom: 12px;
+  display: block;
+}
