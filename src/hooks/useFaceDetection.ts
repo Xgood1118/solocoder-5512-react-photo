@@ -1,10 +1,8 @@
-import { useDB } from '@/composables/useDB'
+import { db } from '@/composables/useDB'
 import { usePhotoStore } from '@/store'
 import { dbscan } from '@/utils/dbscan'
 
 export function useFaceDetection() {
-  const db = useDB()
-
   async function runClustering(): Promise<void> {
     const allFaces = await db.getAllFaces()
     if (allFaces.length === 0) return

@@ -2,7 +2,7 @@ import { isHeic, convertHeicToJpeg } from '@/utils/heic'
 import { readExif, ExifInfo, applyOrientation } from '@/utils/exif'
 import { generateThumbnail, getImageDimensions, loadImage } from '@/utils/thumbnail'
 import { computePHash } from '@/utils/phash'
-import { useDB } from '@/composables/useDB'
+import { db } from '@/composables/useDB'
 import { usePhotoStore, useUIStore } from '@/store'
 import type { Photo, ImportProgress, DuplicateAction, DuplicateCandidate } from '@/types'
 
@@ -79,8 +79,6 @@ async function processSingleFile(
 }
 
 export function usePhotoImport() {
-  const db = useDB()
-
   async function importFiles(files: FileList | File[]): Promise<Photo[]> {
     const fileArr = Array.from(files)
     const validFiles = fileArr.filter((f) => {
@@ -140,7 +138,6 @@ export function usePhotoImport() {
         }
 
         emit('save')
-        let targetPhotoId: string
         if (action === 'overwrite' && existing) {
           await db.deletePhoto(existing.id)
         }
@@ -159,7 +156,6 @@ export function usePhotoImport() {
           exifData: JSON.stringify(data.exif),
           faceGroupIds: [],
         })
-        targetPhotoId = photo.id
 
         usePhotoStore.getState().addPhoto(photo)
         imported.push(photo)

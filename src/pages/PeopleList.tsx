@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Users, Sparkles, Merge, Pencil, User as UserIcon, HelpCircle } from 'lucide-react'
-import { useDB } from '@/composables/useDB'
-import { usePhotoStore, useUIStore } from '@/store'
+import { db } from '@/composables/useDB'
+import { usePhotoStore, useUIStore, useShallow } from '@/store'
 import { useFaceDetection } from '@/hooks/useFaceDetection'
 import type { Person } from '@/types'
 import { Modal, type ModalAction } from '@/components/Modal'
@@ -87,8 +87,9 @@ const personCard = {
 
 export function PeopleList() {
   const navigate = useNavigate()
-  const db = useDB()
-  const { people, setPeople } = usePhotoStore()
+  const { people, setPeople } = usePhotoStore(
+    useShallow((s) => ({ people: s.people, setPeople: s.setPeople })),
+  )
   const batchProgress = useUIStore((s) => s.batchProgress)
   const { runClustering, mergePeople } = useFaceDetection()
 
@@ -100,7 +101,7 @@ export function PeopleList() {
 
   useEffect(() => {
     db.getAllPeople().then(setPeople)
-  }, [db, setPeople])
+  }, [])
 
   const toggleSelect = (id: string) => {
     setSelectedIds((prev) => {

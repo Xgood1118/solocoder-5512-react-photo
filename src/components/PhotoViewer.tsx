@@ -1,13 +1,21 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { X, ChevronLeft, ChevronRight, RotateCcw, RotateCw, ZoomIn, ZoomOut, Maximize2 } from 'lucide-react'
-import { useUIStore } from '@/store'
-import { useDB } from '@/composables/useDB'
+import { useUIStore, useShallow } from '@/store'
+import { db } from '@/composables/useDB'
 import styles from './PhotoViewer.module.css'
 
 export function PhotoViewer() {
   const { viewerOpen, viewerPhotoId, viewerPhotoList, viewerRotation, closeViewer, setViewerRotation } =
-    useUIStore()
-  const db = useDB()
+    useUIStore(
+      useShallow((s) => ({
+        viewerOpen: s.viewerOpen,
+        viewerPhotoId: s.viewerPhotoId,
+        viewerPhotoList: s.viewerPhotoList,
+        viewerRotation: s.viewerRotation,
+        closeViewer: s.closeViewer,
+        setViewerRotation: s.setViewerRotation,
+      })),
+    )
   const [imgUrl, setImgUrl] = useState<string | null>(null)
   const [scale, setScale] = useState(1)
   const [translate, setTranslate] = useState({ x: 0, y: 0 })
@@ -27,7 +35,7 @@ export function PhotoViewer() {
     } catch (err) {
       console.error('加载原图失败:', err)
     }
-  }, [viewerPhotoId, db])
+  }, [viewerPhotoId])
 
   useEffect(() => {
     if (viewerOpen) {
@@ -43,7 +51,7 @@ export function PhotoViewer() {
         db.revokePhotoURL(viewerPhotoId)
       }
     }
-  }, [viewerOpen, loadPhoto, viewerPhotoId, db])
+  }, [viewerOpen, loadPhoto, viewerPhotoId])
 
   const goPrev = useCallback(() => {
     if (currentIndex > 0) {
@@ -51,7 +59,7 @@ export function PhotoViewer() {
       if (viewerPhotoId) db.revokePhotoURL(viewerPhotoId)
       useUIStore.getState().openViewer(nextPhoto.id, viewerPhotoList)
     }
-  }, [currentIndex, viewerPhotoList, viewerPhotoId, db])
+  }, [currentIndex, viewerPhotoList, viewerPhotoId])
 
   const goNext = useCallback(() => {
     if (currentIndex < viewerPhotoList.length - 1) {
@@ -59,7 +67,7 @@ export function PhotoViewer() {
       if (viewerPhotoId) db.revokePhotoURL(viewerPhotoId)
       useUIStore.getState().openViewer(nextPhoto.id, viewerPhotoList)
     }
-  }, [currentIndex, viewerPhotoList, viewerPhotoId, db])
+  }, [currentIndex, viewerPhotoList, viewerPhotoId])
 
   useEffect(() => {
     if (!viewerOpen) return
@@ -179,7 +187,7 @@ export function PhotoViewer() {
           disabled={currentIndex >= viewerPhotoList.length - 1}
           title="下一张 (→)"
         >
-          <ChevronRight size={24} />
+            <ChevronRight size={24} />
         </button>
       </div>
 

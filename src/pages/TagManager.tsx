@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Plus, Pencil, Trash2, FolderPlus, ChevronRight, ChevronDown, Tag as TagIcon } from 'lucide-react'
-import { useDB } from '@/composables/useDB'
-import { usePhotoStore } from '@/store'
+import { Plus, Pencil, Trash2, FolderPlus, ChevronRight, Tag as TagIcon } from 'lucide-react'
+import { db } from '@/composables/useDB'
+import { usePhotoStore, useShallow } from '@/store'
 import { TagTree } from '@/components/TagTree'
 import { Modal, type ModalAction } from '@/components/Modal'
 import type { Tag } from '@/types'
@@ -34,8 +34,9 @@ function buildTree(tags: Tag[]): TagNode[] {
 }
 
 export function TagManager() {
-  const db = useDB()
-  const { tags, setTags } = usePhotoStore()
+  const { tags, setTags } = usePhotoStore(
+    useShallow((s) => ({ tags: s.tags, setTags: s.setTags })),
+  )
 
   const [createOpen, setCreateOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
@@ -48,7 +49,7 @@ export function TagManager() {
 
   useEffect(() => {
     db.getAllTags().then(setTags)
-  }, [db, setTags])
+  }, [])
 
   const toggleExpand = (id: string) => {
     setExpanded((prev) => {

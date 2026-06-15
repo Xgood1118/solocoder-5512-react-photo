@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, ChevronRight } from 'lucide-react'
-import { useDB } from '@/composables/useDB'
-import { usePhotoStore, useUIStore } from '@/store'
+import { db } from '@/composables/useDB'
+import { usePhotoStore, useUIStore, useShallow } from '@/store'
 import { PhotoGrid } from '@/components/PhotoGrid'
 import { PhotoMasonry } from '@/components/PhotoMasonry'
 import { PhotoTimeline } from '@/components/PhotoTimeline'
@@ -14,8 +14,9 @@ import styles from './PageStyles.module.css'
 export function AlbumDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const db = useDB()
-  const { viewMode, setPhotos } = usePhotoStore()
+  const { viewMode, setPhotos } = usePhotoStore(
+    useShallow((s) => ({ viewMode: s.viewMode, setPhotos: s.setPhotos })),
+  )
   const batchProgress = useUIStore((s) => s.batchProgress)
 
   const [photos, setLocalPhotos] = useState<Photo[]>([])
@@ -31,7 +32,7 @@ export function AlbumDetail() {
       setLocalPhotos(list)
       setPhotos(list)
     })
-  }, [id, db, setPhotos])
+  }, [id])
 
   const renderView = () => {
     switch (viewMode) {

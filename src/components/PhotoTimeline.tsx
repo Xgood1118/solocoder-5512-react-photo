@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { usePhotoStore, useUIStore } from '@/store'
+import { usePhotoStore, useUIStore, useShallow } from '@/store'
 import type { Photo } from '@/types'
 import { PhotoCard } from './PhotoCard'
 import styles from './PhotoTimeline.module.css'
@@ -15,7 +15,12 @@ interface Group {
 }
 
 export function PhotoTimeline({ photos }: PhotoTimelineProps) {
-  const { selectedPhotoIds, toggleSelectPhoto } = usePhotoStore()
+  const { selectedPhotoIds, toggleSelectPhoto } = usePhotoStore(
+    useShallow((s) => ({
+      selectedPhotoIds: s.selectedPhotoIds,
+      toggleSelectPhoto: s.toggleSelectPhoto,
+    })),
+  )
   const openViewer = useUIStore((s) => s.openViewer)
 
   const groups = useMemo<Group[]>(() => {

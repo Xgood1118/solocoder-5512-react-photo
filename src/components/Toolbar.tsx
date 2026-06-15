@@ -1,5 +1,5 @@
 import { Search, LayoutGrid, Columns, Clock, Upload, Trash2, Tag, FolderOpen } from 'lucide-react'
-import { usePhotoStore, useUIStore } from '@/store'
+import { usePhotoStore, useUIStore, useShallow } from '@/store'
 import type { ViewMode } from '@/types'
 import styles from './Toolbar.module.css'
 
@@ -21,7 +21,16 @@ export function Toolbar({
   showSearch = true,
 }: ToolbarProps) {
   const { viewMode, setViewMode, searchQuery, setSearchQuery, selectedPhotoIds, clearSelection } =
-    usePhotoStore()
+    usePhotoStore(
+      useShallow((s) => ({
+        viewMode: s.viewMode,
+        setViewMode: s.setViewMode,
+        searchQuery: s.searchQuery,
+        setSearchQuery: s.setSearchQuery,
+        selectedPhotoIds: s.selectedPhotoIds,
+        clearSelection: s.clearSelection,
+      })),
+    )
   const setImportOpen = useUIStore((s) => s.setImportOpen)
 
   const views: { mode: ViewMode; icon: typeof LayoutGrid; label: string }[] = [

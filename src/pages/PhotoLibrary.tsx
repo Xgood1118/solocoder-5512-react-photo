@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { ImagePlus } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { usePhotoStore, useUIStore } from '@/store'
-import { useDB } from '@/composables/useDB'
+import { usePhotoStore, useUIStore, useShallow } from '@/store'
+import { db } from '@/composables/useDB'
 import { useBatchOperations } from '@/hooks/useBatchOperations'
 import { Toolbar } from '@/components/Toolbar'
 import { PhotoGrid } from '@/components/PhotoGrid'
@@ -19,11 +19,31 @@ import styles from './PageStyles.module.css'
 
 export function PhotoLibrary() {
   const navigate = useNavigate()
-  const db = useDB()
   const { batchAddTags, batchMoveToAlbum, batchDelete } = useBatchOperations()
 
-  const { photos, viewMode, searchQuery, selectedPhotoIds, tags, albums, setPhotos, setTags, setAlbums } =
-    usePhotoStore()
+  const {
+    photos,
+    viewMode,
+    searchQuery,
+    selectedPhotoIds,
+    tags,
+    albums,
+    setPhotos,
+    setTags,
+    setAlbums,
+  } = usePhotoStore(
+    useShallow((s) => ({
+      photos: s.photos,
+      viewMode: s.viewMode,
+      searchQuery: s.searchQuery,
+      selectedPhotoIds: s.selectedPhotoIds,
+      tags: s.tags,
+      albums: s.albums,
+      setPhotos: s.setPhotos,
+      setTags: s.setTags,
+      setAlbums: s.setAlbums,
+    })),
+  )
   const batchProgress = useUIStore((s) => s.batchProgress)
   const importOpen = useUIStore((s) => s.importOpen)
   const setImportOpen = useUIStore((s) => s.setImportOpen)
@@ -40,7 +60,7 @@ export function PhotoLibrary() {
     db.getAllPhotos().then(setPhotos)
     db.getAllTags().then(setTags)
     db.getAllAlbums().then(setAlbums)
-  }, [db, setPhotos, setTags, setAlbums])
+  }, [])
 
   const filteredPhotos: Photo[] = photos.filter((p) => {
     if (searchQuery) {

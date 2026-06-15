@@ -1,4 +1,4 @@
-import { usePhotoStore, useUIStore } from '@/store'
+import { usePhotoStore, useUIStore, useShallow } from '@/store'
 import type { Photo } from '@/types'
 import { PhotoCard } from './PhotoCard'
 import styles from './PhotoMasonry.module.css'
@@ -8,7 +8,12 @@ interface PhotoMasonryProps {
 }
 
 export function PhotoMasonry({ photos }: PhotoMasonryProps) {
-  const { selectedPhotoIds, toggleSelectPhoto } = usePhotoStore()
+  const { selectedPhotoIds, toggleSelectPhoto } = usePhotoStore(
+    useShallow((s) => ({
+      selectedPhotoIds: s.selectedPhotoIds,
+      toggleSelectPhoto: s.toggleSelectPhoto,
+    })),
+  )
   const openViewer = useUIStore((s) => s.openViewer)
 
   return (

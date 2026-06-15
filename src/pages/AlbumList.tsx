@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Plus, FolderOpen, MoreVertical, Pencil, Trash2, Image as ImageIcon } from 'lucide-react'
-import { useDB } from '@/composables/useDB'
-import { usePhotoStore } from '@/store'
+import { db } from '@/composables/useDB'
+import { usePhotoStore, useUIStore, useShallow } from '@/store'
 import type { Album } from '@/types'
 import { Modal, type ModalAction } from '@/components/Modal'
 import { PhotoViewer } from '@/components/PhotoViewer'
 import { DuplicateDialog } from '@/components/DuplicateDialog'
 import { ProgressBar } from '@/components/ProgressBar'
-import { useUIStore } from '@/store'
 import styles from './PageStyles.module.css'
 
 const albumCard = {
@@ -71,8 +70,9 @@ const albumCard = {
 
 export function AlbumList() {
   const navigate = useNavigate()
-  const db = useDB()
-  const { albums, setAlbums } = usePhotoStore()
+  const { albums, setAlbums } = usePhotoStore(
+    useShallow((s) => ({ albums: s.albums, setAlbums: s.setAlbums })),
+  )
   const batchProgress = useUIStore((s) => s.batchProgress)
 
   const [createOpen, setCreateOpen] = useState(false)
@@ -83,7 +83,7 @@ export function AlbumList() {
 
   useEffect(() => {
     db.getAllAlbums().then(setAlbums)
-  }, [db, setAlbums])
+  }, [])
 
   const createAlbum = async () => {
     if (!newName.trim()) return

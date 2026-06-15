@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, ChevronRight, Pencil } from 'lucide-react'
-import { useDB } from '@/composables/useDB'
-import { usePhotoStore, useUIStore } from '@/store'
+import { db } from '@/composables/useDB'
+import { usePhotoStore, useUIStore, useShallow } from '@/store'
 import { PhotoGrid } from '@/components/PhotoGrid'
 import { PhotoMasonry } from '@/components/PhotoMasonry'
 import { PhotoTimeline } from '@/components/PhotoTimeline'
@@ -15,8 +15,7 @@ import styles from './PageStyles.module.css'
 export function PersonDetail() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const db = useDB()
-  const { viewMode } = usePhotoStore()
+  const { viewMode } = usePhotoStore(useShallow((s) => ({ viewMode: s.viewMode })))
   const batchProgress = useUIStore((s) => s.batchProgress)
 
   const [photos, setPhotos] = useState<Photo[]>([])
@@ -45,7 +44,7 @@ export function PersonDetail() {
       result.sort((a, b) => b.takenAt.getTime() - a.takenAt.getTime())
       setPhotos(result)
     })
-  }, [id, db])
+  }, [id])
 
   const saveEdit = async () => {
     if (!id) return
