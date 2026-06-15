@@ -1,0 +1,7 @@
+照片管理工具打开首页就死循环了。浏览器从地址栏进 http://localhost:5173，第一帧画面还没出来，DevTools Console 就开始刷屏 "Maximum update depth exceeded"，一刷就 494 条；DevTools Performance 录一段可以看到 React reconcile 占满 CPU。
+
+另外 Playwright 在根路径截全屏图直接 30 秒超时拍不出来，因为页面永远不进入 idle 状态，帧率掉到浏览器没法响应。批量加标签 / 移相册 / 导入 / 人脸识别这些功能写得再完整，用户连首页都进不去，等于 0。
+
+用户视角：从浏览器打开工具 → 空白卡死 → 关掉，用户不会回来第二次。
+
+检查修复一下。
